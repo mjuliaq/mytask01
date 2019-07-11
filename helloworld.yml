@@ -1,0 +1,42 @@
+---
+- name: nginx installation
+  gather_facts: No
+  hosts: default
+  become_method: sudo
+
+  tasks:
+    - name: Install docker
+      yum:
+        name: docker
+        state: latest
+      become: yes
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+      become: yes
+
+    - name: Add user vagrant to docker group
+      user:
+        name: vagrant
+        groups: dockerroot
+        append: yes
+      become: yes
+
+# Fix docker.sock permissions
+# yum sets root:root permissions but the group 
+
+    - name: chowning docker.sock
+      file:
+        path: /var/run/docker.sock
+        group: dockerroot
+      become: yes
+
+    - name: Create webserver content
+      command: docker build -t hello_world_nginx .
+
+    - name: Spin up nginx
+      command: docker run --name hello-world-nginx -d -p 80:80 hello_world_nginx
+
