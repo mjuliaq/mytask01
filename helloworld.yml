@@ -1,5 +1,5 @@
 ---
-- name: nginx installation
+- name: Hello World installation
   gather_facts: No
   hosts: default
   become_method: sudo
@@ -36,7 +36,8 @@
 
     - name: Create webserver content
       command: docker build -t hello_world_nginx .
+      become:yes
 
     - name: Spin up nginx
       command: docker run --name hello-world-nginx -d -p 80:80 hello_world_nginx
-
+      become: yes
