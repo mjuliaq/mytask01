@@ -36,7 +36,7 @@
 
     - name: Create webserver content
       command: docker build -t hello_world_nginx .
-      become:yes
+      become: yes
 
     - name: Spin up nginx
       command: docker run --name hello-world-nginx -d -p 80:80 hello_world_nginx
