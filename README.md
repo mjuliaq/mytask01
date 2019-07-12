@@ -3,7 +3,10 @@
 - Prerequesites
 
 Vagrant
+
 Ansible
+
+VirtualBox
 
 - Install instructions
 
